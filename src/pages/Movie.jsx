@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { url } from '../constants'
 import { useMoviesContext } from '../context'
+import { Page } from '../styled'
 
 const Movie = () => {
   const id = useParams().id
@@ -47,27 +48,45 @@ const Description = ({ overview }) => {
   useEffect(() => setMovie(movies.find((mov) => mov.id === parseInt(id))), [movies, id])
 
   const [details, setDetails] = useState({})
+  const [video, setVideo] = useState({})
 
   useEffect(() => {
-    const getMovie = async () => {
-      const mov = await axios.get(url + '/movie/' + id + '/videos?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695')
-      setDetails(movie.data)
-      console.log(mov.data)
+    const getMovieImg = async () => {
+      const img = await axios.get(url + '/movie/' + id + '/images?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695')
+      setDetails(img?.data.posters.slice(1, 6))
     }
-    getMovie()
+    getMovieImg()
+  }, [id])
+
+  useEffect(() => {
+    const getMovieVideo = async () => {
+      const vdo = await axios.get(url + '/movie/' + id + '/videos?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695')
+      setVideo(vdo?.data.results[0].key)
+      console.log(vdo?.data.results[0].key)
+    }
+    getMovieVideo()
   }, [id])
 
   return (
     <div>
-      {!movie || loading ? (
-        <h2>Loading ...</h2>
-      ) : (
-        <p>
-          {overview}
-          <br />
-          {JSON.stringify(details)}
-        </p>
-      )}
+      {!movie || loading ? <h2>Loading ...</h2> : <p>{overview}</p>}
+
+      <iframe
+        width="560"
+        height="315"
+        src={`https://www.youtube.com/embed/${video}?controls=0`}
+        title="YouTube video player"
+        frameborder="0"
+        // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+
+      <FlexImg>
+        {details[0] &&
+          details.map((img, id) => (
+            <img key={id} src={`https://image.tmdb.org/t/p/w300/${img.file_path}`} alt="movie screenshots" />
+          ))}
+      </FlexImg>
     </div>
   )
 }
@@ -94,14 +113,6 @@ const Credits = () => {
     </Flex>
   )
 }
-
-const Page = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 0 20px;
-`
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -156,5 +167,13 @@ const Flex = styled.div`
 
   img {
     width: 100%;
+  }
+`
+
+const FlexImg = styled.div`
+  display: flex;
+  gap: 0 10px;
+  img {
+    width: 100px;
   }
 `
