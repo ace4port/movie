@@ -80,11 +80,10 @@ export const MovieItem = ({ movie }) => {
   const handleCLick = (e) => {
     e.preventDefault()
     addToWishlist(movie.id)
-    alert('Added to wishlist')
   }
 
   return (
-    <Card href={`/movie/${movie.id}`}>
+    <Card to={`/movie/${movie.id}`}>
       <img src={url + movie.poster_path} alt={movie.title} />
 
       <div className="desc">

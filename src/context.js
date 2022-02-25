@@ -32,10 +32,14 @@ const MoviesProvider = ({ children }) => {
   }, [])
 
   const addToWishlist = (id) => {
-    const movie = movies.find((movie) => movie.id === id)
+    const movie = movies.find((movie) => movie.id === parseInt(id))
     const newList = [...wishlist, movie]
+
     setWishlist(newList)
+
     localStorage.setItem('wishlist', JSON.stringify(newList))
+
+    alert('Added to wishlist')
   }
 
   return (

@@ -12,7 +12,7 @@ const Movie = () => {
   const [active, setActive] = useState(0)
   const [movie, setMovie] = useState({})
 
-  const { movies, loading } = useMoviesContext()
+  const { movies, loading, addToWishlist } = useMoviesContext()
 
   useEffect(() => setMovie(movies.find((mov) => mov.id === parseInt(id))), [movies, id])
   return (
@@ -30,6 +30,7 @@ const Movie = () => {
             <button className={active && 'active'} onClick={() => setActive(1)}>
               Cast
             </button>
+            <button onClick={() => addToWishlist(id)}>Add to Watchlist</button>
           </ButtonGroup>
 
           <div>{active ? <Credits /> : <Description overview={movie?.overview} />}</div>
