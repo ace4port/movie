@@ -1,24 +1,10 @@
-import debounce from 'lodash.debounce'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
+
 import { useMoviesContext } from '../context'
+import { useDebounce } from '../helper/useDebounce'
+
 import { Page, Search, Card, Container } from '../styled'
-
-const url = 'https://image.tmdb.org/t/p/w300'
-
-const Home = () => {
-  return <MoviesList />
-}
-
-export default Home
-
-const useDebounce = (cb, delay) => {
-  /* eslint-disable-next-line */
-  const debouncedFn = useCallback(
-    debounce((...args) => cb(...args), delay),
-    [delay]
-  )
-  return debouncedFn
-}
+import { imageURL, searchURL } from '../constants'
 
 const MoviesList = () => {
   const [searchRes, setSearchRes] = useState([])
@@ -38,9 +24,7 @@ const MoviesList = () => {
   const debouncedSearch = useDebounce((val) => handleAPI(val), 500)
 
   const handleAPI = async (val) => {
-    await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695&language=en-US&query=${val}&page=1&include_adult=false`
-    )
+    await fetch(searchURL(val))
       .then((res) => res.json())
       .then((data) => setSearchRes(data?.results))
       .then(() => setSearchLoading(false))
@@ -74,6 +58,8 @@ const MoviesList = () => {
   )
 }
 
+export default MoviesList
+
 export const MovieItem = ({ movie }) => {
   const { addToWishlist } = useMoviesContext()
 
@@ -84,7 +70,7 @@ export const MovieItem = ({ movie }) => {
 
   return (
     <Card to={`/movie/${movie.id}`}>
-      <img src={url + movie.poster_path} alt={movie.title} />
+      <img src={imageURL + movie.poster_path} alt={movie.title} />
 
       <div className="desc">
         <h2>{movie.title}</h2>

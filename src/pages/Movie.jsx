@@ -1,8 +1,9 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { url } from '../constants'
+import axios from 'axios'
+
+import { getCreditImgURL, getImageURL, getVideoURL, imageURL } from '../constants'
 import { useMoviesContext } from '../context'
 import { Page } from '../styled'
 
@@ -20,7 +21,7 @@ const Movie = () => {
       {loading ? <div>Loading...</div> : <h1>{movie?.title}</h1>}
 
       <FlexA>
-        {movie?.poster_path && <img src={`https://image.tmdb.org/t/p/w500/${movie?.poster_path}`} alt={movie?.title} />}
+        {movie?.poster_path && <img src={`${imageURL}/${movie?.poster_path}`} alt={movie?.title} />}
 
         <Aside>
           <ButtonGroup>
@@ -53,7 +54,7 @@ const Description = ({ overview }) => {
 
   useEffect(() => {
     const getMovieImg = async () => {
-      const img = await axios.get(url + '/movie/' + id + '/images?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695')
+      const img = await axios.get(getImageURL(id))
       setDetails(img?.data.posters.slice(1, 6))
     }
     getMovieImg()
@@ -61,7 +62,7 @@ const Description = ({ overview }) => {
 
   useEffect(() => {
     const getMovieVideo = async () => {
-      const vdo = await axios.get(url + '/movie/' + id + '/videos?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695')
+      const vdo = await axios.get(getVideoURL(id))
       setVideo(vdo?.data.results[0].key)
       console.log(vdo?.data.results[0].key)
     }
@@ -77,16 +78,14 @@ const Description = ({ overview }) => {
         height="315"
         src={`https://www.youtube.com/embed/${video}?controls=0`}
         title="YouTube video player"
-        frameborder="0"
-        // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
+        frameBorder="0"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope;"
+        allowFullScreen
       ></iframe>
 
       <FlexImg>
         {details[0] &&
-          details.map((img, id) => (
-            <img key={id} src={`https://image.tmdb.org/t/p/w300/${img.file_path}`} alt="movie screenshots" />
-          ))}
+          details.map((img, id) => <img key={id} src={`${imageURL}/${img.file_path}`} alt="movie screenshots" />)}
       </FlexImg>
     </div>
   )
@@ -98,7 +97,7 @@ const Credits = () => {
   const [cast, setCast] = useState([])
   useEffect(() => {
     const getCredits = async () => {
-      const cred = await axios.get(url + '/movie/' + id + '/credits?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695')
+      const cred = await axios.get(getCreditImgURL(id))
       setCast(cred.data.cast)
     }
     getCredits()
@@ -107,7 +106,7 @@ const Credits = () => {
     <Flex>
       {cast.slice(0, 5).map((cast) => (
         <div key={cast.id}>
-          <img src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`} alt={cast.name} />
+          <img src={`${imageURL}/${cast.profile_path}`} alt={cast.name} />
           <p>{cast.name}</p>
         </div>
       ))}

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState, useContext, useEffect } from 'react'
 
-const url = 'https://api.themoviedb.org/3/discover/movie?api_key=ba5a4f22e4ed5be8a9cbec812c6fa695'
+import { discoverURL } from './constants'
 
 const MoviesContext = React.createContext({})
 
@@ -17,7 +17,7 @@ const MoviesProvider = ({ children }) => {
     const getMovies = async () => {
       setLoading(true)
       try {
-        const res = await axios.get(url)
+        const res = await axios.get(discoverURL)
         const data = await res.data
         if (data.results) {
           setMovies(data?.results)

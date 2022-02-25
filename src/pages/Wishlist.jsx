@@ -1,4 +1,5 @@
 import React from 'react'
+import { imageURL } from '../constants'
 import { useMoviesContext } from '../context'
 import { Card, Container, Page } from '../styled'
 
@@ -34,7 +35,7 @@ export default Wishlist
 const Movie = ({ id, title, release_date, vote_average, poster_path }) => {
   return (
     <Card to={`/movie/${id}`}>
-      <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={title} />
+      <img src={`${imageURL}/${poster_path}`} alt={title} />
 
       <div className="desc">
         <h2>{title}</h2>

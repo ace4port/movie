@@ -3,25 +3,23 @@ import styled from 'styled-components'
 
 import Home from './pages/Home'
 import Movie from './pages/Movie'
+import NotFound from './pages/NotFound'
 import Wishlist from './pages/Wishlist'
 
 import user from './styled/user.svg'
 
-const NotFound = () => <h1>404: Invalid route</h1>
-
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movie/:id" element={<Movie />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/movie/:id" element={<Movie />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
@@ -29,17 +27,17 @@ export default App
 
 const Navbar = () => {
   return (
-    <Nav>
+    <NavStyled>
       <div className="nav">
         <NavLink to="/">Movies</NavLink>
         <NavLink to="/wishlist">WishList</NavLink>
       </div>
       <img src={user} alt="user" />
-    </Nav>
+    </NavStyled>
   )
 }
 
-const Nav = styled.nav`
+const NavStyled = styled.nav`
   display: flex;
   align-items: center;
   padding: 0 20px;
