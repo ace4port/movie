@@ -40,7 +40,7 @@ const MoviesList = () => {
         <h2>No search results ...</h2>
       ) : (
         <>
-          <h2>Search results ...</h2>
+          <h2>Search results:</h2>
           <Container>{searchRes && searchRes.map((movie) => <MovieItem key={movie.id} movie={movie} />)}</Container>
         </>
       )}

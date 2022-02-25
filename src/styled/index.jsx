@@ -5,12 +5,9 @@ export const Page = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  > * {
-    max-width: 1200px;
-  }
   padding: 0 20px;
   
-  min-height:100vh;
+  min-height: calc(100vh - 60px);
   
   // Credits to Manuel Pinto   https://codepen.io/P1N2O/pen/pyBNzX 
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -30,20 +27,19 @@ export const Page = styled.div`
 `
 
 export const Search = styled.input`
-  width: 100%;
   padding: 10px;
   border-radius: 5px;
   margin: 2rem 0;
   font-size: 1.2rem;
   font-weight: bold;
-  background: #23a6d5;
   color: #fff;
-  border: 1px solid #ee7752;
+  border: 1px solid #ae3da2;
+  background: #23a6d5;
   outline: none;
 
   transition: all 0.3s ease-in-out;
   &:focus {
-    background: #ee7752;
+    background: #ae3da2;
   }
 `
 
@@ -64,13 +60,18 @@ export const Container = styled.div`
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background: #fff;
+      color: #a0a000;
+    }
   }
 `
 
 export const Card = styled(Link)`
   background-color: #0505a5aa;
   color: white;
-  * {
+  img {
     border-radius: 0.4rem;
   }
   border-radius: 2rem;
@@ -84,11 +85,12 @@ export const Card = styled(Link)`
   position: relative;
 
   .desc {
+    border-radius: 0.4rem;
     position: absolute;
     padding: 1rem;
-    top: 0;
-    height: inherit;
     opacity: 0;
+
+    height: 270px;
     transition: 0.5s ease;
     background-color: #008cba;
 

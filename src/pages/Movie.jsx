@@ -64,7 +64,6 @@ const Description = ({ overview }) => {
     const getMovieVideo = async () => {
       const vdo = await axios.get(getVideoURL(id))
       setVideo(vdo?.data.results[0].key)
-      console.log(vdo?.data.results[0].key)
     }
     getMovieVideo()
   }, [id])
@@ -134,6 +133,9 @@ const ButtonGroup = styled.div`
   .active {
     border-bottom: 2px solid #00f;
   }
+  > button:last-child {
+    margin-left: auto;
+  }
 `
 
 const FlexA = styled.div`
@@ -144,7 +146,9 @@ const FlexA = styled.div`
   &:first-child {
     align-self: flex-start;
   }
-
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
   img {
     width: 300px;
   }

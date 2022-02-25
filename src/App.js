@@ -44,12 +44,13 @@ const NavStyled = styled.nav`
   height: 60px;
   background: #008cba;
   z-index: 1;
-  gap: 2rem;
   font-size: 1.5rem;
+
   .nav {
     margin-left: auto;
     margin-right: auto;
   }
+
   a {
     color: white;
     margin-left: 2rem;
